@@ -20,7 +20,7 @@ public class main {
      */
     public static void main(String[] args) throws Exception {
         
-        RisePay risepay = new RisePay("jhonndev","U0H464z4");
+        RisePay risepay = new RisePay("demo","demo");
         
         Map<String, Object> data = new HashMap<String, Object>();
         

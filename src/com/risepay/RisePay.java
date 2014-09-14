@@ -141,9 +141,7 @@ private Map<String, Object>  convertResponse(String xml) {
    
    // Convert ExtData
    // Split plain data and XML into $matches array
-   
-   System.out.println(data.get("Result"));
-   if((int)data.get("Result")==0){
+   if(Integer.parseInt(data.get("Result").toString())==0){
      data.put("Approved",true); 
   
    String extData = (String)data.get("ExtData");
