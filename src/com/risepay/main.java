@@ -32,7 +32,13 @@ public class main {
         data.put("TipAmt", 1);
         data.put("Customer", "JR");
         
-        System.out.println(risepay.auth(data));         
+        Map<String, Object> resp = risepay.auth(data);
+        if((boolean)resp.get("Approved")){
+            System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
+        }else{
+            System.out.println("Declined: "+ resp.get("RespMSG"));
+        }
+                
               
     }
     

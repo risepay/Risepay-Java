@@ -127,20 +127,25 @@ public class RisePay {
   
 private Map<String, Object>  convertResponse(String xml) {
    JSONObject json = XML.toJSONObject(xml);
-   
    //creating array HashMap
    // Cleanup array
    Map<String, Object> data = new HashMap<String, Object>();   
    JSONObject j = new JSONObject();
    j = json.getJSONObject("Response");
-   
    for (String fieldName : j.keySet())
 			{
                                 data.put(fieldName, j.get(fieldName));                                
 			}
    
+   data.put("Approved",false);
+   
    // Convert ExtData
    // Split plain data and XML into $matches array
+   
+   System.out.println(data.get("Result"));
+   if((int)data.get("Result")==0){
+     data.put("Approved",true); 
+  
    String extData = (String)data.get("ExtData");
    String match = "([,=0-9a-zA-Z]*)(\\<.*\\>)"; 
    String[] s = pregMatch(extData, match);
@@ -151,12 +156,15 @@ private Map<String, Object>  convertResponse(String xml) {
    }
 
    // Process XML part
+   if(s.length==2){ 
    JSONObject xmldata = XML.toJSONObject(s[2]);
    for (String fieldName : xmldata.keySet())
 			{
                                 data.put(fieldName, xmldata.get(fieldName));                                
 			}
-
+    
+   }
+   }
    String[] jsonlist = {"xmlns:xsd", "xmlns:xsi", "xmlns", "ExtData"};
    for(String d : jsonlist){
        data.remove(d);
