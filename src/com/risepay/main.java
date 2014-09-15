@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package com.risepay;
 
 
@@ -14,11 +14,11 @@ import java.util.Map;
  * @author Jhonn
  */
 public class main {
-
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         
         RisePay risepay = new RisePay("demo","demo");
         
@@ -27,19 +27,18 @@ public class main {
         data.put("NameOnCard", "Jhonn");
         data.put("CardNum", "5149612222222229");
         data.put("ExpDate", "1214");
-        data.put("Amount", 10);
+        data.put("Amount", 1);
         data.put("CVNum", "678");
-        data.put("TipAmt", 1);
-        data.put("Customer", "JR");
         
-        Map<String, Object> resp = risepay.auth(data);
+        Map<String, Object> resp = risepay.sale(data);
         if((boolean)resp.get("Approved")){
             System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
+            System.out.println("AuthCode = " + resp.get("AuthCode"));
         }else{
             System.out.println("Declined: "+ resp.get("RespMSG"));
         }
-                
-              
+        
+        
     }
     
 }
