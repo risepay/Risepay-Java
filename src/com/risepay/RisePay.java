@@ -43,34 +43,34 @@ public class RisePay {
         this.url = url;
     }
     
-    public Map<String, Object> auth(Map<String, Object> data) throws Exception{
+    public Map<String, Object> auth(Map<String, Object> data){
         data.put("TransType", "Auth");
         return prepareData(data);
     }
     
-    public Map<String, Object> sale(Map<String, Object> data)  throws Exception{
+    public Map<String, Object> sale(Map<String, Object> data){
         data.put("TransType", "Sale");
         return prepareData(data);
     }
     
     //void lowercase keyword reserved
-    public Map<String, Object> Void(Map<String, Object> data)  throws Exception{
+    public Map<String, Object> Void(Map<String, Object> data){
         data.put("TransType", "Void");
         return prepareData(data);
     }
     
     //return lowercase keyword reserved
-    public Map<String, Object> Return(Map<String, Object> data)  throws Exception{
+    public Map<String, Object> Return(Map<String, Object> data){
         data.put("TransType", "Return");
         return prepareData(data);
     }
     
-    public Map<String, Object> capture(Map<String, Object> data)  throws Exception{
+    public Map<String, Object> capture(Map<String, Object> data){
         data.put("TransType", "Force");
         return prepareData(data);
     }
     
-    private Map<String, Object> prepareData(Map<String, Object> data) throws Exception{
+    private Map<String, Object> prepareData(Map<String, Object> data) {
         data.put("UserName", username);
         data.put("Password", password);
         data.put("ExtData", "");
@@ -109,20 +109,28 @@ public class RisePay {
          
         return post(data);
     }
-    private Map<String, Object> post(Map<String, Object> data) throws Exception{
+    private Map<String, Object> post(Map<String, Object> data) {
+       Map<String, Object> resp = new HashMap<String, Object>();
        
         StringBuilder postData = new StringBuilder();
         for (Map.Entry<String,Object> param : data.entrySet()) {
-            if (postData.length() != 0) postData.append('&');
-            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
-            postData.append('=');
-            postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            try {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+                String content = String.valueOf(postData);
+                Post post = Http.post(url, content).header("Content-Type", "application/x-www-form-urlencoded");
+                
+                resp = convertResponse(post.text());
+                
+            } catch (Exception e) {
+                resp.put("RespMSG", "Gateway error: " + e.getMessage());
+            }
         }
         
-       String content = String.valueOf(postData);
-       Post post = Http.post(url, content).header("Content-Type", "application/x-www-form-urlencoded");
-
-        return convertResponse(post.text());
+        return resp;
+             
     }
   
 private Map<String, Object>  convertResponse(String xml) {
