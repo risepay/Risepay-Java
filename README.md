@@ -48,7 +48,7 @@ Functional API:
     System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
     System.out.println("AuthCode = " + resp.get("AuthCode"));
   }else{
-    System.out.println("Declined: "+ resp.get("RespMSG"));
+    System.out.println("Declined: "+ resp.get("Message"));
         }
   ```
 	
@@ -88,7 +88,7 @@ Functional API:
     System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
     System.out.println("AuthCode = " + resp.get("AuthCode"));
   }else{
-    System.out.println("Declined: "+ resp.get("RespMSG"));
+    System.out.println("Declined: "+ resp.get("Message"));
         }	
   ```
 ### Void Transaction
@@ -113,7 +113,7 @@ To void a transaction:
     System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
     System.out.println("AuthCode = " + resp.get("AuthCode"));
   }else{
-    System.out.println("Declined: "+ resp.get("RespMSG"));
+    System.out.println("Declined: "+ resp.get("Message"));
         } 
   ```
 ### Capture Transaction
@@ -138,7 +138,7 @@ To capture a previously Authorized transaction:
     System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
     System.out.println("AuthCode = " + resp.get("AuthCode"));
   }else{
-    System.out.println("Declined: "+ resp.get("RespMSG"));
+    System.out.println("Declined: "+ resp.get("Message"));
         }
   ```
 
@@ -164,7 +164,7 @@ Functional API:
     System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
     System.out.println("AuthCode = " + resp.get("AuthCode"));
   }else{
-    System.out.println("Declined: "+ resp.get("RespMSG"));
+    System.out.println("Declined: "+ resp.get("Message"));
         }
   ```
 
