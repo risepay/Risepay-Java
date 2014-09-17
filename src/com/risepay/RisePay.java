@@ -32,6 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.javalite.http.Http;
 import org.javalite.http.Post;
+
 import org.json.*;
 import org.json.JSONObject;
 import org.json.XML;
@@ -131,23 +132,37 @@ public class RisePay {
     }
     private Map<String, Object> post(Map<String, Object> data) {
         Map<String, Object> resp = new HashMap<String, Object>();
+        String content = "";
         
+        try {
         StringBuilder postData = new StringBuilder();
-        for (Map.Entry<String,Object> param : data.entrySet()) {
-            try {
+        
+        for (Map.Entry<String,Object> param : data.entrySet()) {     
                 if (postData.length() != 0) postData.append('&');
                 postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
                 postData.append('=');
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
-                String content = String.valueOf(postData);
-                Post post = Http.post(url, content).header("Content-Type", "application/x-www-form-urlencoded");
-                
-                resp = convertResponse(post.text());
-                
-            } catch (Exception e) {
-                resp.put("RespMSG", "Gateway error: " + e.getMessage());
+                 content = String.valueOf(postData);
             }
-        }
+                Http.CONNECTION_TIMEOUT = 120000;
+                Http.READ_TIMEOUT = 120000;
+                Post post = Http.post(url, content).header("Content-Type", "application/x-www-form-urlencoded");
+                String response = post.text();
+                
+                if(response.startsWith("<?xml")){
+                    resp = convertResponse(response);
+                }else{
+                    resp.put("RespMSG", "Gateway error: " + response);
+                    resp.put("Result", -999);
+                    resp.put("Approved", false);
+                    
+                }
+                
+        } catch (Exception e) {
+                resp.put("RespMSG", "Gateway error: " + e.getMessage());
+                resp.put("Result", -999);
+                resp.put("Approved", false);
+            }
         
         return resp;
         
@@ -155,6 +170,7 @@ public class RisePay {
     
     private Map<String, Object>  convertResponse(String xml) {
         JSONObject json = XML.toJSONObject(xml);
+        
         //creating array HashMap
         // Cleanup array
         Map<String, Object> data = new HashMap<String, Object>();
@@ -196,6 +212,11 @@ public class RisePay {
         for(String d : jsonlist){
             data.remove(d);
         }
+        if(data.get("Message")==null)
+            data.put("Message", "");
+        
+        if(data.get("RespMSG")!=null)
+        data.put("Message", data.get("Message") +" "+ data.get("RespMSG")); 
         
         return data;
     }

@@ -31,11 +31,12 @@ public class main {
         data.put("CVNum", "678");
         
         Map<String, Object> resp = risepay.sale(data);
+        
         if((boolean)resp.get("Approved")){
             System.out.println("Approved. Transaction ID = " + resp.get("PNRef"));
             System.out.println("AuthCode = " + resp.get("AuthCode"));
         }else{
-            System.out.println("Declined: "+ resp.get("RespMSG"));
+            System.out.println("Declined: "+ resp.get("Message"));
         }
         
         
