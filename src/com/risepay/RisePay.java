@@ -20,6 +20,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 package com.risepay;
 
+import com.risepay.json.JSONObject;
+import com.risepay.json.XML;
+import com.risepay.net.http.Http;
+import com.risepay.net.http.Post;
+
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -30,12 +36,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.javalite.http.Http;
-import org.javalite.http.Post;
 
-import org.json.*;
-import org.json.JSONObject;
-import org.json.XML;
+
+
+
+
+
 
 /*
 * To change this license header, choose License Headers in Project Properties.
